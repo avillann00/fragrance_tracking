@@ -1,6 +1,11 @@
 from bs4 import BeautifulSoup
 import requests
 
+def all_websites():
+    websites = ['venba', 'olfactory', 'nm', 'aura', 'ediscount', 'jetee']
+    
+    return websites
+
 def venba_get_price(url):
     try:
         response = requests.get(url)
@@ -34,7 +39,76 @@ def olfactory_get_price(url):
          
     except requests.exceptions.RequestException as e:
         print(e)
+def nm_get_price(url):
+    try:
+        response = requests.get(url)
 
+        content = response.text
+        soup = BeautifulSoup(content, 'html.parser')
+
+        price = soup.find('span', class_='Pricingstyles__RetailPrice-gnVaue hMfJba')
+        
+        if price:
+            price = price.get_text(strip=True)
+
+            return price
+         
+    except requests.exceptions.RequestException as e:
+        print(e)
+
+def aura_get_price(url):
+    try:
+        response = requests.get(url)
+
+        content = response.text
+        soup = BeautifulSoup(content, 'html.parser')
+
+        price = soup.find('span', id='productPrice-product-template')
+        
+        if price:
+            price = price.find('span', class_='visually-hidden')
+
+            price = price.get_text(strip=True)
+
+            return price
+         
+    except requests.exceptions.RequestException as e:
+        print(e)
+
+def ediscount_get_price(url):
+    try:
+        response = requests.get(url)
+
+        content = response.text
+        soup = BeautifulSoup(content, 'html.parser')
+
+        price = soup.find('span', class_='price-value')
+        
+        if price:
+            price = price.get_text(strip=True)
+
+            return price
+         
+    except requests.exceptions.RequestException as e:
+        print(e)
+
+def jetee_get_price(url):
+    try:
+        response = requests.get(url)
+
+        content = response.text
+        soup = BeautifulSoup(content, 'html.parser')
+
+        price = soup.find('span', id='ProductPrice-7551889309939', class_='product__price')
+
+        if price:
+            price = price.get_text(strip=True)
+
+            return price
+    except requests.exceptions.RequestException as e:
+        print(e)
+
+"""
 def joma_get_price(url): # wip
     try:
         response = requests.get(url)
@@ -91,55 +165,4 @@ def fragbuy_get_price(url): # wip
     except requests.exceptions.RequestException as e:
         print(e)
 
-def nm_get_price(url):
-    try:
-        response = requests.get(url)
-
-        content = response.text
-        soup = BeautifulSoup(content, 'html.parser')
-
-        price = soup.find('span', class_='Pricingstyles__RetailPrice-gnVaue hMfJba')
-        
-        if price:
-            price = price.get_text(strip=True)
-
-            return price
-         
-    except requests.exceptions.RequestException as e:
-        print(e)
-
-def aura_get_price(url):
-    try:
-        response = requests.get(url)
-
-        content = response.text
-        soup = BeautifulSoup(content, 'html.parser')
-
-        price = soup.find('span', id='productPrice-product-template')
-        
-        if price:
-            price = price.find('span', class_='visually-hidden')
-
-            price = price.get_text(strip=True)
-
-            return price
-         
-    except requests.exceptions.RequestException as e:
-        print(e)
-
-def ediscount_get_price(url):
-    try:
-        response = requests.get(url)
-
-        content = response.text
-        soup = BeautifulSoup(content, 'html.parser')
-
-        price = soup.find('span', class_='price-value')
-        
-        if price:
-            price = price.get_text(strip=True)
-
-            return price
-         
-    except requests.exceptions.RequestException as e:
-        print(e)
+"""
