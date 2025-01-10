@@ -23,7 +23,7 @@ function Details() {
   const priceHistory = fragrance?.prices?.map(price => (
     <li>
       <h3>Price From Website: {price.price}</h3>
-      <h3>Date Collected: {price.date}</h3>
+      <h3>Date Collected: {price.date.substring(0,10)}</h3>
     </li>
   ))
 

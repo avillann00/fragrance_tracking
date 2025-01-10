@@ -1,11 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
 
-def all_websites():
-    websites = ['venba', 'olfactory', 'nm', 'aura', 'ediscount', 'jetee']
-    
-    return websites
-
 def venba_get_price(url):
     try:
         response = requests.get(url)
@@ -166,3 +161,20 @@ def fragbuy_get_price(url): # wip
         print(e)
 
 """
+def get_price(website, url):
+
+    website = website.lower()
+    print('website: ',website)
+    print('url: ', url)
+    scripts = {
+        'venba': venba_get_price, 
+        'olfactory': olfactory_get_price,
+        'nm': nm_get_price,
+        'aura': aura_get_price,
+        'ediscount': ediscount_get_price,
+        'jettee': jetee_get_price
+    }
+
+    price = scripts[website](url)
+    print('price: ',price)
+    return price[1:]

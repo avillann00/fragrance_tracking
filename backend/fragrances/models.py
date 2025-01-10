@@ -23,5 +23,5 @@ class Price(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.fragrance} costs ${self.price}'
+        return f'{self.fragrance} costs ${self.price} on {self.date}'
 

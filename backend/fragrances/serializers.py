@@ -14,8 +14,12 @@ class PriceSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FragrancePriceSerializer(serializers.ModelSerializer):
-    prices = PriceSerializer(many=True, read_only=True)
+    prices = serializers.SerializerMethodField()
 
     class Meta:
         model = Fragrance
         fields = ['id', 'house', 'name', 'notes', 'website', 'url', 'user', 'prices']
+
+    def get_prices(self, obj):
+        prices = Price.objects.filter(fragrance=obj)
+        return PriceSerializer(prices, many=True).data

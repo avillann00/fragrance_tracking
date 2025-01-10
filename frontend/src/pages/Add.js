@@ -56,6 +56,15 @@ function Add() {
           value={house}
           onChange={e => setHouse(e.target.value)}
         />
+        <h1>ONLY PUT THE FOLLOWING WEBSITES EXACTLY AS SPELLED OR IT WON'T WORK:</h1>
+        <ul>
+          <li>venba (Venba Fragrance)</li>
+          <li>jetee (La Jetee)</li>
+          <li>ediscount (Ediscount perfumes)</li>
+          <li>aura (Aura Fragrance)</li>
+          <li>nm (Neiman Marcus)</li>
+          <li>olfactory (Olfactory)</li>
+        </ul>
         <input 
           type='text'
           placeholder='Enter the Website Name'

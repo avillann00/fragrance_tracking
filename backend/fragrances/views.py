@@ -1,16 +1,28 @@
-from rest_framework import serializers
 from rest_framework.views import Response, APIView
 from .models import Fragrance, Price
 from rest_framework.permissions import IsAuthenticated
 from .serializers import FragrancePriceSerializer, FragranceSerializer
 from rest_framework import status
+from scraping.main import get_price
+from django.utils import timezone
 
 class FragranceView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         fragrances = Fragrance.objects.filter(user=self.request.user)
+        today = timezone.now().date()
+        for fragrance in fragrances:
+            if not Price.objects.filter(fragrance=fragrance, date__date=today).exists():
+                price = get_price(fragrance.website, fragrance.url)
+                Price.objects.create(
+                    fragrance=fragrance,
+                    name=fragrance.website,
+                    price=price,
+                    date=timezone.now()
+                )
         serializer = FragrancePriceSerializer(fragrances, many=True)
+        print(serializer.data)
         return Response(serializer.data)
 
     def post(self, request):
@@ -27,6 +39,15 @@ class SingleFragranceView(APIView):
     def get(self, request, pk):
         try:
             fragrance = Fragrance.objects.get(pk=pk, user=self.request.user)
+            today = timezone.now().date()
+            if not Price.objects.filter(fragrance=fragrance, date__date=today).exists():
+                price = get_price(fragrance.website, fragrance.url)
+                Price.objects.create(
+                    fragrance=fragrance,
+                    name=fragrance.website,
+                    price=price,
+                    date=timezone.now()
+                )
             serializer = FragrancePriceSerializer(fragrance)
             return Response(serializer.data)
         except Fragrance.DoesNotExist:
